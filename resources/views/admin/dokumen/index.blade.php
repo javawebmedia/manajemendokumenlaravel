@@ -33,8 +33,9 @@
 		<tr class="table-secondary">
 			<th width="5%">No</th>
 			<th width="25%">Dokumen</th>
-			<th width="20%">Jenis Dokumen</th>
-			<th width="20%">Perkembangan &amp; Album</th>
+			<th width="10%">Unit Kerja</th>
+			<th width="10%">Jenis Dokumen</th>
+			<th width="10%">Perkembangan &amp; Album</th>
 			<th width="5%">Ekstensi</th>
 			<th width="10%">Ukuran</th>
 			<th></th>
@@ -51,6 +52,7 @@
 					<br>Catatan: <em><?php echo $item->keterangan ?></em>
 				</small>
 			</td>
+			<td>{{ $item->unitKerja?->nama_unit_kerja }}</td>
 			<td><a href="{{ url('admin/dokumen/jenis/'.$item->id_jenis_dokumen) }}">
 				{{ optional($item->jenisDokumen)->nama_jenis_dokumen ?? '-' }}
 			</a>
@@ -79,8 +81,18 @@
 			    <a href="<?php echo url('admin/dokumen/detail/'.$item->kode_dokumen) ?>" class="btn btn-primary btn-sm mb-1"><i class="fa-solid fa-eye"></i> Detail</a>
 				
 				<a href="<?php echo url('admin/dokumen/unduh/'.$item->kode_dokumen) ?>" class="btn btn-info btn-sm mb-1"><i class="fa-solid fa-download"></i></a>
-				<a href="<?php echo url('admin/dokumen/edit/'.$item->kode_dokumen) ?>" class="btn btn-warning btn-sm mb-1"><i class="fa-solid fa-edit"></i></a>
-				<a href="<?php echo url('admin/dokumen/delete/'.$item->kode_dokumen) ?>" class="btn btn-dark btn-sm delete-link mb-1"><i class="fa-solid fa-trash"></i></a>
+
+				<?php if(Session()->get('id_unit_kerja') > 0) { 
+					if(Session()->get('id_unit_kerja')==$item->id_unit_kerja) {
+					?>
+
+					<a href="<?php echo url('admin/dokumen/edit/'.$item->kode_dokumen) ?>" class="btn btn-warning btn-sm mb-1"><i class="fa-solid fa-edit"></i></a>
+					<a href="<?php echo url('admin/dokumen/delete/'.$item->kode_dokumen) ?>" class="btn btn-dark btn-sm delete-link mb-1"><i class="fa-solid fa-trash"></i></a>
+
+				<?php }}else{ ?>
+					<a href="<?php echo url('admin/dokumen/edit/'.$item->kode_dokumen) ?>" class="btn btn-warning btn-sm mb-1"><i class="fa-solid fa-edit"></i></a>
+					<a href="<?php echo url('admin/dokumen/delete/'.$item->kode_dokumen) ?>" class="btn btn-dark btn-sm delete-link mb-1"><i class="fa-solid fa-trash"></i></a>
+				<?php } ?>
 			</td>
 		</tr>
 		<?php $no++; } ?>

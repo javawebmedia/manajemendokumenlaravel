@@ -69,6 +69,7 @@ class LoginController extends Controller
                     'nama'              => $user->nama,
                     'id_akses_level'    => $user->id_akses_level,
                     'akses_level'       => $user->akses_level,
+                    'id_unit_kerja'     => $user->id_unit_kerja,
                     'username'          => $user->username
                 ]);
                 session()->forget('captcha');
@@ -92,6 +93,7 @@ class LoginController extends Controller
                     'nama'              => $user->nama,
                     'id_akses_level'    => $user->id_akses_level,
                     'akses_level'       => $user->akses_level,
+                    'id_unit_kerja'     => $user->id_unit_kerja,
                     'username'          => $user->username
                 ]);
                 session()->forget('captcha');

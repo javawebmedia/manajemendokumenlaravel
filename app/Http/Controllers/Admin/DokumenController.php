@@ -13,6 +13,7 @@ use App\Models\Dokumen;
 use App\Models\Album;
 use App\Models\Perkembangan;
 use App\Models\Users;
+use App\Models\UnitKerja;
 
 class DokumenController extends Controller
 {
@@ -24,6 +25,12 @@ class DokumenController extends Controller
         $SubJenisDokumen    = SubJenisDokumen::orderBy('urutan','ASC')->get();
         $Album              = Album::orderBy('nama_album','ASC')->get();
         $Perkembangan       = Perkembangan::orderBy('urutan','ASC')->get();
+
+        if(Session()->get('id_unit_kerja') > 0) {
+            $unitKerja      = UnitKerja::where('id_unit_kerja',Session()->get('id_unit_kerja'))->first();
+        }else{
+            $unitKerja      = UnitKerja::orderBy('nama_unit_kerja','ASC')->get();
+        }
 
         $dokumen            = Dokumen::with([
                                     'jenisDokumen',
@@ -47,6 +54,7 @@ class DokumenController extends Controller
                     'dokumen'           => $dokumen,
                     'konfigurasi'       => $konfigurasi,
                     'perkembangan'      => $Perkembangan,
+                    'unitKerja'         => $unitKerja,
                     'content'           => 'admin.dokumen.index'
                 ];
         return view('admin.layout.wrapper',$data);
@@ -332,6 +340,12 @@ class DokumenController extends Controller
         $Album              = Album::orderBy('nama_album','ASC')->get();
         $Perkembangan       = Perkembangan::orderBy('urutan','ASC')->get();
 
+        if(Session()->get('id_unit_kerja') > 0) {
+            $unitKerja      = UnitKerja::where('id_unit_kerja',Session()->get('id_unit_kerja'))->first();
+        }else{
+            $unitKerja      = UnitKerja::orderBy('nama_unit_kerja','ASC')->get();
+        }
+
         $data = [
             'title'             => 'Edit Dokumen: '.$dokumen->nama_dokumen,
             'dokumen'           => $dokumen,
@@ -341,6 +355,7 @@ class DokumenController extends Controller
             'dokumen'           => $dokumen,
             'konfigurasi'       => $konfigurasi,
             'perkembangan'      => $Perkembangan,
+            'unitKerja'         => $unitKerja,
             'content'           => 'admin.dokumen.edit'
         ];
 
@@ -466,7 +481,7 @@ class DokumenController extends Controller
                     'id_sub_jenis_dokumen' => $request->id_sub_jenis_dokumen,
                     'id_perkembangan'      => $request->id_perkembangan,
                     'id_album'             => $request->id_album,
-                    'id_unit_kerja'        => auth()->user()->id_unit_kerja ?? 1,
+                    'id_unit_kerja'        => $request->id_unit_kerja,
                     'kode_dokumen'         => strtoupper(Str::random(12)),
                     'nama_dokumen'         => $nama_dokumen,
                     'keterangan'           => $request->keterangan,
@@ -529,7 +544,7 @@ class DokumenController extends Controller
                     'id_sub_jenis_dokumen' => $request->id_sub_jenis_dokumen,
                     'id_perkembangan'      => $request->id_perkembangan,
                     'id_album'             => $request->id_album,
-                    'id_unit_kerja'        => auth()->user()->id_unit_kerja ?? 1,
+                    'id_unit_kerja'        => $request->id_unit_kerja,
                     'nama_dokumen'         => $nama_dokumen,
                     'keterangan'           => $request->keterangan,
                     'nama_file'            => $nama_file,

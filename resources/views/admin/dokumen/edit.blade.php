@@ -12,6 +12,27 @@
         
 	</div>
 	<div class="col-md-5">
+        <?php if(Session()->get('id_unit_kerja') > 0) { ?>
+
+            <div class="mb-3 alert alert-info">
+            <small class="text-muted">Unit Kerja</small>
+            <br>{{ $unitKerja->nama_unit_kerja }}
+            </div>
+            <input type="hidden" name="id_unit_kerja" value="{{ Session()->get('id_unit_kerja') }}">
+
+        <?php }else{ ?>
+
+            <div class="mb-3">
+            <select name="id_unit_kerja" class="form-control" id="id_unit_kerja" style="width:100%;">
+                <option value="">Pilih Unit Kerja</option>
+                <?php foreach($unitKerja as $row) { ?>
+                    <option value="<?php echo $row->id_unit_kerja ?>" <?php if($dokumen->id_unit_kerja == $row->id_unit_kerja) { echo 'selected'; } ?>><?php echo $row->nama_unit_kerja ?></option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <?php } ?>
+
 		<div class="mb-3">
 			<select name="id_perkembangan" class="form-control" id="id_perkembangan" style="width:100%;" required>
 				<?php foreach($perkembangan as $item) { ?>

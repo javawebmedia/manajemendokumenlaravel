@@ -14,3 +14,5 @@
 		<?php echo $konfigurasi->tentang ?>	
 	</div>
 </div>
+
+{{ session('id_unit_kerja') }}
